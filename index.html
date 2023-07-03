@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cifrado AES</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      background-color: #F7F7F7;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333333;
+      margin-bottom: 20px;
+    }
+
+    textarea, select, input[type="text"] {
+      font-size: 16px;
+      padding: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #CCCCCC;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      resize: none;
+    }
+
+    select {
+      font-size: 16px;
+      padding: 6px;
+    }
+
+    label {
+      font-size: 16px;
+      font-weight: bold;
+      color: #333333;
+      display: block;
+      margin-bottom: 5px;
+      text-align: left;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #45A049;
+    }
+
+    #keyLengthWarning {
+      font-size: 14px;
+      font-style: italic;
+      color: #FF0000;
+    }
+
+    #outputText {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cifrado AES</h1>
+  <textarea id="inputText" rows="5" cols="50" placeholder="Ingresa el texto a cifrar o descifrar"></textarea><br>
+  <label for="keySize">Tipo de AES:</label>
+  <select id="keySize" onchange="updateKeyLength()">
+    <option value="128">AES-128</option>
+    <option value="192">AES-192</option>
+    <option value="256">AES-256</option>
+  </select>
+  <br>
+  <label for="key">Llave:</label>
+  <input type="password" id="key" oninput="validateKeyLength()" placeholder="Ingresa la llave secreta">
+  <br>
+  <span id="keyLengthWarning"></span>
+  <br>
+  <button onclick="encrypt()">Cifrar</button>
+  <button onclick="decrypt()">Descifrar</button>
+  <br>
+  <textarea id="outputText" rows="5" cols="50" placeholder="Texto cifrado o descifrado aparecerá aquí" readonly></textarea>
+
+  <script>
+    function updateKeyLength() {
+      var keySizeSelect = document.getElementById("keySize");
+      var selectedKeySize = keySizeSelect.options[keySizeSelect.selectedIndex].value;
+
+      var keyInput = document.getElementById("key");
+      var keyLength = parseInt(selectedKeySize) / 8;
+      keyInput.maxLength = keyLength;
+      validateKeyLength();
+    }
+
+    function
